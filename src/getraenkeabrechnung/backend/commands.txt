@@ -17,5 +17,21 @@ create table entry (
     DrinkID int(5),
     OrderTime TIMESTAMP
 );
+
+ALTER TABLE user
+ADD color datatype;
+
 INSERT INTO user values (00000, "Jung", 2, 1, Null);
 INSERT INTO user values (99999, "Schuimer", 2, 1, Null);
+
+DELETE FROM user where UserName = "Jung";
+
+drinks 
+(00001, "Softdrinks", 2.99, Null),
+(00002, "Radler", 3.99, Null),
+(00003, "Pils", 4.99, Null),
+(00004, "Weizen", 5.99, Null),
+(00005, "Wein", 8.99, Null)
+
+https://www.w3schools.com/sql/default.asp
+
