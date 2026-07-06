@@ -11,9 +11,5 @@ app = Flask(__name__)
 def main():
     return render_template("index.html")
 
-app.run("0.0.0.0", port=5000, debug=True)
-
-"""
-INSERT INTO user(userID, Name) values (0, "Jung");
-INSERT INTO user(userID, Name) values (1, "Schuimer");
-"""
+if __name__ == "__main__":
+    app.run("0.0.0.0", port=8000, debug=True)

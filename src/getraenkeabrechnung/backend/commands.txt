@@ -1,0 +1,21 @@
+create table user (
+    UserID int(5) primary key,
+    UserName varchar(40),
+    Adults int(2),
+    Children int(2),
+    Image varchar(65535)
+);
+create table drinks (
+    DrinkID int(5) primary key,
+    DrinkName varchar(40),
+    Price float(4),
+    Image varchar(65535)
+);
+create table entry (
+    ID int(5) primary key,
+    UserID int(5),
+    DrinkID int(5),
+    OrderTime TIMESTAMP
+);
+INSERT INTO user values (00000, "Jung", 2, 1, Null);
+INSERT INTO user values (99999, "Schuimer", 2, 1, Null);

@@ -20,7 +20,7 @@ managed = true
 dev-dependencies = []
 
 [tool.rye.scripts]
-server = "python3 -m src.getraenkeabrechnung.server"
+server = "python -m src.getraenkeabrechnung.server"
 
 [tool.hatch.metadata]
 allow-direct-references = true
