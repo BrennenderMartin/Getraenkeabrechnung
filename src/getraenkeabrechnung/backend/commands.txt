@@ -19,7 +19,7 @@ create table entry (
 );
 
 ALTER TABLE user
-ADD color datatype;
+ADD color char(6); -> save colors in hexadecimal
 
 INSERT INTO user values (00000, "Jung", 2, 1, Null);
 INSERT INTO user values (99999, "Schuimer", 2, 1, Null);
