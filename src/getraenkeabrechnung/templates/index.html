@@ -2,15 +2,17 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine erste Webseite</title>
+    <link rel="stylesheet" href="/static/css/output.css">
+    <title>Index Page</title>
 </head>
 <body>
+{% include "components/navbar.html" %}
 
-    <h1>Willkommen auf meiner Webseite</h1>
-    <p>Dies ist ein einfacher Absatz mit Text in HTML.</p>
-    
-    <a href="https://wikipedia.org" target="_blank">Besuche Wikipedia</a>
+<div class="grid grid-cols-4 lg:grid-cols-2">
+{% for name in families %}
+    {% include "components/family_card.html" %}
+{% endfor %}
+</div>
 
 </body>
 </html>
