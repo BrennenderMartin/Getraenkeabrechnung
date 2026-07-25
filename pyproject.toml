@@ -24,6 +24,7 @@ dev-dependencies = []
 server = "python -m src.getraenkeabrechnung.server"
 backend = "python -m src.getraenkeabrechnung.backend.main"
 css-watch = "tailwindcss-extra -i src/getraenkeabrechnung/static/css/input.css -o src/getraenkeabrechnung/static/css/output.css --watch"
+css-build = "tailwindcss-extra -i src/getraenkeabrechnung/static/css/input.css -o src/getraenkeabrechnung/static/css/output.css"
 
 [tool.hatch.metadata]
 allow-direct-references = true
