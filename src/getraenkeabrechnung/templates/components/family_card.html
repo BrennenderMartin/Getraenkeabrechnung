@@ -1,8 +1,6 @@
 <div class="card bg-base-100 image-full w-96 shadow-sm">
     <figure>
-        <img
-        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-        alt="Shoes" />
+        <img src="{{ get_image_for_user(name) }}"   qq alt="{{ name }}" />
     </figure>
     <div class="card-body">
         <h2 class="card-title">{{ name }}</h2>
@@ -12,3 +10,4 @@
         </div>
     </div>
 </div>
+

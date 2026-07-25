@@ -26,6 +26,9 @@ INSERT INTO user values (99999, "Schuimer", 2, 1, Null);
 
 DELETE FROM user where UserName = "Jung";
 
+-- SQLite
+UPDATE user SET Image = "S2 EP6 4K (123).jpg" WHERE UserID = 2
+
 drinks 
 (00001, "Softdrinks", 2.99, Null),
 (00002, "Radler", 3.99, Null),
@@ -35,3 +38,4 @@ drinks
 
 https://www.w3schools.com/sql/default.asp
 
+/"http://localhost:8000/static/images/image.jpg" 

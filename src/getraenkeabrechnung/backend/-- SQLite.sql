@@ -1,3 +1,2 @@
 -- SQLite
-SELECT *
-FROM user
+SELECT Image FROM user WHERE UserName = 'Jung'

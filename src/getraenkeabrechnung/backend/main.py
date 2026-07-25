@@ -3,13 +3,13 @@ import json
 
 path = "./src/getraenkeabrechnung/backend/"
 
-def get_sql(command: str) -> list:
+def get_sql(command: str, params: tuple = ()) -> list:
     database_file = f"{path}db.sqlite"
 
     conn = sqlite3.connect(database_file)
     cursor = conn.cursor()
 
-    cursor.execute(command)
+    cursor.execute(command, params)
     output = cursor.fetchall()
 
     cursor.close()
@@ -25,8 +25,10 @@ def save_sql(filename, sqldata):
     
     print("File saved!")
 
+def get_image_for_user(user):
+    result = get_sql("SELECT Image FROM user WHERE UserName = ?", (user,))
+    path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
+    return path
 
 if __name__ == "__main__":
-    print(get_sql(
-        "SELECT UserName, Image FROM user"
-    ))
+    print(get_image_for_user("Jung"))
