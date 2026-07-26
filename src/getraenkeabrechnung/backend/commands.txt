@@ -29,6 +29,12 @@ DELETE FROM user where UserName = "Jung";
 -- SQLite
 UPDATE user SET Image = "S2 EP6 4K (123).jpg" WHERE UserID = 2
 
+UPDATE drinks SET Image = "softdrink.jpeg" WHERE DrinkName = "Softdrinks"
+UPDATE drinks SET Image = "Radler.jpeg" WHERE DrinkName = "Radler"
+UPDATE drinks SET Image = "Pilz.jpeg" WHERE DrinkName = "Pils"
+UPDATE drinks SET Image = "weizen.jpeg" WHERE DrinkName = "Weizen"
+UPDATE drinks SET Image = "Wein.jpeg" WHERE DrinkName = "Wein"
+
 drinks 
 (00001, "Softdrinks", 2.99, Null),
 (00002, "Radler", 3.99, Null),

@@ -1,2 +1,2 @@
 -- SQLite
-SELECT Image FROM user WHERE UserName = 'Jung'
+UPDATE drinks SET Image = "Wein.jpeg" WHERE DrinkName = "Wein"

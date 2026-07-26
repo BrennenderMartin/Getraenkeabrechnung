@@ -1,10 +1,10 @@
 <div class="card bg-base-100 image-full w-96 shadow-sm">
     <figure>
-        <img src="{{ get_image_for_user(name) }}" alt="{{ name }}" />
+        <img src="{{ get_image_for_drink(drink) }}" alt="{{ drink }}" />
     </figure>
     <div class="card-body">
         <div class="card-actions justify-end">
-            <a class="btn btn-primary" href="{{ url_for('user', name=name) }}">{{ name }}</a>
+            <a class="btn btn-primary">{{ drink }}</a>
         </div>
     </div>
 </div>
