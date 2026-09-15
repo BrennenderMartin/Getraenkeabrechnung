@@ -13,8 +13,11 @@ def _exec_sql(command: str, table = None, params: tuple = ()):
     cursor.execute(command, params)
     conn.commit()
 
-    cursor.execute(f"SELECT * FROM {table}")
-    output = cursor.fetchall()
+    if table is not None:
+        cursor.execute(f"SELECT * FROM {table}")
+        output = cursor.fetchall()
+    else:
+        output = f"No output for command '{command}' wanted"
 
     cursor.close()
     conn.close()

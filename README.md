@@ -13,7 +13,7 @@ How to run it:
 
 4. In the third Terminal you can run your backend commands like command "rye run backend"
 
-TODOS:
+TO-DOs:
 - Change ID types DONE
 - UnreCOGNISED token bei softdrink FIXED
 - Im family screen zeigen, welche fam ausgewählt ist (war gerade kurz verwirrt)
