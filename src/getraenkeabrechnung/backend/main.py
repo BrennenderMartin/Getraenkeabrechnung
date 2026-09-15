@@ -58,8 +58,12 @@ def get_image_for_user(user):
     path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
     return path
 
-def get_drinks():
-    drinks = _get_sql("SELECT DrinkName from drinks")
+def get_drinks(restriction: bool = False):
+    """Restriction, meaning if children have access to said Product, defaults to False so all drinks will be shown, if given as True, the drinks will be restricted and only non alcoholical drinks will be shown"""
+    if restriction is False:
+        drinks = _get_sql("SELECT DrinkName from drinks ORDER BY AdultTag")
+    else:
+        drinks = _get_sql("SELECT DrinkName from drinks WHERE AdultTag = 0")
     return _get_list_from_sql(drinks)
 
 def get_image_for_drink(drink):
@@ -67,17 +71,22 @@ def get_image_for_drink(drink):
     path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
     return path
 
+def get_price_for_drink(drink):
+    result = _get_sql("SELECT Price FROM drinks WHERE DrinkName = ?", (drink,))
+    return result[0][0]
+
 def get_drink_id(drink):
     result = _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))
     return result[0][0]
 
 def return_drink(name, drink):
-    Id = _get_sql("SELECT count(*) FROM entry")[0][0]
+    Id = hex(_get_sql("SELECT count(*) FROM entry")[0][0])[2:]
     UserID = _get_sql("SELECT UserID FROM user WHERE UserName = ?", (name,))[0][0]
     DrinkID = _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))[0][0]
     
-    _exec_sql(f"INSERT into entry values({str(uuid4())}{Id}, {UserID}, {DrinkID}, CURRENT_TIMESTAMP)", "entry")
+    _exec_sql(f"INSERT into entry values('{uuid4()}-{Id}', '{UserID}', '{DrinkID}', CURRENT_TIMESTAMP)", "entry")
     print(f"{name = }, {drink = }, {Id = }, {UserID = }, {DrinkID = }") # Output = "Jung Softdrinks"
 
 if __name__ == "__main__":
-    print(return_drink("Jung", "Softdrinks"))
+    print("Hello World!")
+

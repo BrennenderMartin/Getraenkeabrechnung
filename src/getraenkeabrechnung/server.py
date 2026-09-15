@@ -6,7 +6,14 @@ from flask import (
     redirect,
     url_for,
 )
-from getraenkeabrechnung.backend.main import *
+from getraenkeabrechnung.backend.main import (
+    get_families,
+    get_image_for_user,
+    get_drinks,
+    get_image_for_drink,
+    return_drink,
+    get_price_for_drink
+)
 
 app = Flask(__name__)
 
@@ -20,13 +27,14 @@ def main():
 
 @app.route("/user/<name>", methods=["GET"])
 def user(name):
-    return render_template(
-        "user.html",
-        name=name,
-        drinks=get_drinks(),
-        get_image_for_drink=get_image_for_drink,
-        return_drink=return_drink,
-    )
+    drinks: list[dict] = []
+    for drink in get_drinks():
+        drinks.append({
+            "name": drink,
+            "img_url": get_image_for_drink(drink),
+            "price": get_price_for_drink(drink)
+        })
+    return render_template("user.html", name=name, drinks=drinks)
 
 @app.route("/user/<name>/drink/<drink>", methods=["POST"])
 def return_drink_route(name, drink):
