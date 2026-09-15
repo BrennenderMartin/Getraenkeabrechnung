@@ -15,3 +15,5 @@ How to run it:
 1.3 In the third Terminal you can run your backend commands like command 1.3.1
 1.3.1 rye run backend
 
+TODOS:
+- Change ID types

@@ -1,7 +1,25 @@
 import sqlite3
 import json
+from uuid import uuid4
 
 path = "./src/getraenkeabrechnung/backend/"
+
+def _exec_sql(command: str, table = None, params: tuple = ()):
+    database_file = f"{path}db.sqlite"
+
+    conn = sqlite3.connect(database_file)
+    cursor = conn.cursor()
+
+    cursor.execute(command, params)
+    conn.commit()
+
+    cursor.execute(f"SELECT * FROM {table}")
+    output = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return output
 
 def _get_sql(command: str, params: tuple = ()) -> list:
     database_file = f"{path}db.sqlite"
@@ -49,5 +67,17 @@ def get_image_for_drink(drink):
     path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
     return path
 
+def get_drink_id(drink):
+    result = _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))
+    return result[0][0]
+
+def return_drink(name, drink):
+    Id = _get_sql("SELECT count(*) FROM entry")[0][0]
+    UserID = _get_sql("SELECT UserID FROM user WHERE UserName = ?", (name,))[0][0]
+    DrinkID = _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))[0][0]
+    
+    _exec_sql(f"INSERT into entry values({str(uuid4())}{Id}, {UserID}, {DrinkID}, CURRENT_TIMESTAMP)", "entry")
+    print(f"{name = }, {drink = }, {Id = }, {UserID = }, {DrinkID = }") # Output = "Jung Softdrinks"
+
 if __name__ == "__main__":
-    print(get_image_for_drink("Softdrinks"))
+    print(return_drink("Jung", "Softdrinks"))

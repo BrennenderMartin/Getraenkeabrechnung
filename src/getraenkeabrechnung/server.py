@@ -2,7 +2,9 @@ from flask import (
     Flask,
     render_template,
     request,
-    jsonify
+    jsonify,
+    redirect,
+    url_for,
 )
 from getraenkeabrechnung.backend.main import *
 
@@ -23,7 +25,13 @@ def user(name):
         name=name,
         drinks=get_drinks(),
         get_image_for_drink=get_image_for_drink,
+        return_drink=return_drink,
     )
+
+@app.route("/user/<name>/drink/<drink>", methods=["POST"])
+def return_drink_route(name, drink):
+    return_drink(name, drink)
+    return redirect(url_for("user", name=name))
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=8000, debug=True)

@@ -4,7 +4,9 @@
     </figure>
     <div class="card-body">
         <div class="card-actions justify-end">
-            <a class="btn btn-primary">{{ drink }}</a>
+            <form method="post" action="{{ url_for('return_drink_route', name=name, drink=drink) }}">
+                <button class="btn btn-primary" type="submit">{{ drink }}</button>
+            </form>
         </div>
     </div>
 </div>
