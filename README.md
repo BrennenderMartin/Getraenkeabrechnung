@@ -13,8 +13,18 @@ How to run it:
 
 4. In the third Terminal you can run your backend commands like command "rye run backend"
 
+WARNING: The timestamp in the sql db is off by 2 hours -> entry made at 22:33, shown as 20:33
+
 TO-DOs:
 - Change ID types DONE
 - UnreCOGNISED token bei softdrink FIXED
 - Im family screen zeigen, welche fam ausgewählt ist (war gerade kurz verwirrt)
 - "TestToggle" für Adult tag, später hinter PW verstecken
+- Wie viel Geld gezahlt wurde
+- Backend: Gesamtpreise returnen, 
+- Familie ausgewählt lassen
+- css
+- Admin page, um account zu erstellen und toggles zu verstecken, Preise verändern
+- accounts pw schützen lassen
+- Getränk hinzufügen bei Admin
+- service mehrere Tage laufen lassen, sql backup alle paar stunden machen

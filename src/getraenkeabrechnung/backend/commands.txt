@@ -64,3 +64,30 @@ DROP TABLE TEMPuser;
 
 ALTER TABLE user
 ADD COLUMN "AdultTag";
+
+
+
+-- SQLite --
+
+SELECT u.UserName, sum(d.Price) AS Gesamtbetrag
+FROM 
+    entry AS e, 
+    user AS u, 
+    drinks AS d
+WHERE 
+    e.UserID = u.UserID AND
+    e.DrinkID = d.DrinkID
+GROUP BY u.UserID
+--HAVING u.UserName = "Jung"
+ORDER BY 2 DESC;
+
+
+SELECT u.UserName, d.DrinkName, d.Price, e.OrderTime
+FROM 
+    entry AS e, 
+    user AS u, 
+    drinks AS d
+WHERE 
+    e.UserID = u.UserID AND
+    e.DrinkID = d.DrinkID AND
+    u.UserName = "Jung";

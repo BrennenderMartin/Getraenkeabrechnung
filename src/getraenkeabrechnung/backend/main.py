@@ -55,8 +55,7 @@ def _save_sql(filename, sqldata):
 
 
 def get_families():
-    families = _get_sql("SELECT UserName FROM user ")
-    return _get_list_from_sql(families)
+    return _get_list_from_sql(_get_sql("SELECT UserName FROM user "))
 
 def get_image_for_user(user):
     result = _get_sql("SELECT Image FROM user WHERE UserName = ?", (user,))
@@ -79,12 +78,10 @@ def get_image_for_drink(drink):
     return path
 
 def get_price_for_drink(drink):
-    result = _get_sql("SELECT Price FROM drinks WHERE DrinkName = ?", (drink,))
-    return result[0][0]
+    return _get_sql("SELECT Price FROM drinks WHERE DrinkName = ?", (drink,))[0][0]
 
 def get_drink_id(drink):
-    result = _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))
-    return result[0][0]
+    return _get_sql("SELECT DrinkID FROM drinks WHERE DrinkName = ?", (drink,))[0][0]
 
 def return_drink(name, drink):
     Id = hex(_get_sql("SELECT count(*) FROM entry")[0][0])[2:]
@@ -97,14 +94,18 @@ def return_drink(name, drink):
 
 
 def get_AdultTag(user):
-    result = _get_sql("SELECT AdultTag FROM user WHERE UserName =?", (user,))[0][0]
-    return result
+    return _get_sql("SELECT AdultTag FROM user WHERE UserName = ?", (user,))[0][0]
 
 def set_AdultTag(user):
     return _exec_sql(f"UPDATE user SET AdultTag = {not get_AdultTag(user)} WHERE UserName = '{user}'", "user")
 
-
+def get_gesamtbetrag(user):
+    return round(
+        _get_sql(
+            f"SELECT sum(d.Price) AS Gesamtbetrag FROM entry AS e, user AS u, drinks AS d WHERE e.UserID = u.UserID AND e.DrinkID = d.DrinkID AND u.UserName = '{user}';"
+        )[0][0], 
+        2
+    )
 
 if __name__ == "__main__":
-    print(set_AdultTag("Jung"))
-
+    print(get_AdultTag("Jung"))
