@@ -1,16 +1,21 @@
-<div class="card bg-base-100 image-full w-96 shadow-sm">
-    <figure>
-        <img class="h-48 w-96 object-fill" src="{{ drink.img_url }}" alt="{{ drink.name }}" />
-    </figure>
-    <div class="card-body">
-        <h2 class="card-title">
-            {{ drink.name }}
-            <div class="badge badge-secondary">{{ drink.price }}€</div>
-        </h2>
-        <div class="card-actions justify-end">
-            <form method="post" action="{{ url_for('return_drink_route', name=name, drink=drink.name) }}">
-                <button class="btn btn-primary" type="submit">Auswählen</button>
-            </form>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 content-center gap-6">
+    {% for drink in drinks %}
+        <div class="card bg-base-100 image-full w-96 shadow-sm">
+            <figure>
+                <img class="h-48 w-96 object-fill" src="{{ drink.img_url }}" alt="{{ drink.name }}" />
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title">
+                    {{ drink.name }}
+                    <div class="badge badge-secondary">{{ drink.price }}€</div>
+                </h2>
+                <div class="card-actions justify-end">
+                    <form method="post" action="{{ url_for('return_drink_route', name=name, drink=drink.name) }}">
+                        <button class="btn btn-primary" type="submit">Auswählen</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
+    {% endfor %}
 </div>

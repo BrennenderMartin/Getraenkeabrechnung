@@ -60,7 +60,7 @@ def get_families():
 
 def get_image_for_user(user):
     result = _get_sql("SELECT Image FROM user WHERE UserName = ?", (user,))
-    path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
+    path = f"/static/images/{result[0][0] if result else ""}" 
     return path
 
 
@@ -75,7 +75,7 @@ def get_drinks(restriction: bool = False):
 
 def get_image_for_drink(drink):
     result = _get_sql("SELECT Image FROM drinks WHERE DrinkName = ?", (drink,))
-    path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
+    path = f"/static/images/{result[0][0] if result else ""}" 
     return path
 
 def get_price_for_drink(drink):
