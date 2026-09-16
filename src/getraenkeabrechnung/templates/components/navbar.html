@@ -4,7 +4,18 @@
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
-            <li><a>Link</a></li>
+            {% if name %}
+                <form id="restriction_form" method="post" action="{{ url_for('change_restriction', name=name) }}">
+                    <input 
+                        id="toggle" 
+                        type="checkbox" 
+                        name="restriction" 
+                        {% if restriction %}checked="checked"{% endif %} 
+                        class="toggle" 
+                        onchange="this.form.submit()"
+                    />
+                <form>
+            {% endif %}
             <li>
                 <details>
                 <summary>Parent</summary>

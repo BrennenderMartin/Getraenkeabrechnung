@@ -17,3 +17,4 @@ TO-DOs:
 - Change ID types DONE
 - UnreCOGNISED token bei softdrink FIXED
 - Im family screen zeigen, welche fam ausgewählt ist (war gerade kurz verwirrt)
+- "TestToggle" für Adult tag, später hinter PW verstecken

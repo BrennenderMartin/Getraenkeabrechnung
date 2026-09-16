@@ -52,6 +52,8 @@ def _save_sql(filename, sqldata):
     
     print("File saved!")
 
+
+
 def get_families():
     families = _get_sql("SELECT UserName FROM user ")
     return _get_list_from_sql(families)
@@ -60,6 +62,8 @@ def get_image_for_user(user):
     result = _get_sql("SELECT Image FROM user WHERE UserName = ?", (user,))
     path = f"http://localhost:8000/static/images/{result[0][0] if result else ""}" 
     return path
+
+
 
 def get_drinks(restriction: bool = False):
     """Restriction, meaning if children have access to said Product, defaults to False so all drinks will be shown, if given as True, the drinks will be restricted and only non alcoholical drinks will be shown"""
@@ -90,6 +94,17 @@ def return_drink(name, drink):
     _exec_sql(f"INSERT into entry values('{uuid4()}-{Id}', '{UserID}', '{DrinkID}', CURRENT_TIMESTAMP)", "entry")
     print(f"{name = }, {drink = }, {Id = }, {UserID = }, {DrinkID = }") # Output = "Jung Softdrinks"
 
+
+
+def get_AdultTag(user):
+    result = _get_sql("SELECT AdultTag FROM user WHERE UserName =?", (user,))[0][0]
+    return result
+
+def set_AdultTag(user):
+    return _exec_sql(f"UPDATE user SET AdultTag = {not get_AdultTag(user)} WHERE UserName = '{user}'", "user")
+
+
+
 if __name__ == "__main__":
-    print("Hello World!")
+    print(set_AdultTag("Jung"))
 

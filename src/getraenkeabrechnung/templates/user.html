@@ -8,10 +8,10 @@
 <body>
 {% include "components/navbar.html" %}
 
-<div class="grid grid-cols-4 lg:grid-cols-2">
-{% for drink in drinks %}
-    {% include "components/drink_card.html" %}
-{% endfor %}
+<div class="grid grid-cols-1 sm:grid-cols-2 content-center gap-6">
+    {% for drink in drinks %}
+        {% include "components/drink_card.html" %}
+    {% endfor %}
 </div>
 
 </body>
