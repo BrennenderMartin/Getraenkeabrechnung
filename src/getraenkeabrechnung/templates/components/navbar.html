@@ -1,9 +1,15 @@
 <div class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/">Getränkeabrechnung</a>
+            <a class="btn btn-ghost text-xl" href="/">
+                {{ event_name }} 
+                {% if name %}
+                    <span class="text-gray-500 font-normal ml-1">- {{ name }}</span>
+                {% endif %}
+            </a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
+            <a>Alkoholische Getränke: </a>
             {% if name %}
                 <input 
                     id="toggle" 
@@ -11,7 +17,7 @@
                     name="restriction" 
                     {% if restriction %}checked="checked"{% endif %} 
                     class="toggle" 
-                    />
+                />
             {% endif %}
             <li>
                 <details>

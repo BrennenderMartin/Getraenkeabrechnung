@@ -1,17 +1,17 @@
 
-<div class="grid grid-cols-1 sm:grid-cols-2 content-center gap-6">
+<div class="mx-auto grid w-fit grid-cols-1 justify-items-center gap-6 sm:grid-cols-2">
     {% for drink in drinks %}
-        <div class="card bg-base-100 image-full w-96 shadow-sm">
+        <div class="card bg-base-300 w-96 shadow-lg">
             <figure>
                 <img class="h-48 w-96 object-fill" src="{{ drink.img_url }}" alt="{{ drink.name }}" />
             </figure>
             <div class="card-body">
-                <h2 class="card-title">
-                    {{ drink.name }}
-                    <div class="badge badge-secondary">{{ drink.price }}€</div>
-                </h2>
-                <div class="card-actions justify-end">
-                    <form method="post" action="{{ url_for('return_drink_route', name=name, drink=drink.name) }}">
+                <div class="flex items-center justify-between gap-4">
+                    <h2 class="card-title">
+                        {{ drink.name }}
+                        <div class="badge badge-secondary">{{ drink.price }}€</div>
+                    </h2>
+                    <form class="drink-form" data-name="{{ name }}" data-drink="{{ drink.name }}">
                         <button class="btn btn-primary" type="submit">Auswählen</button>
                     </form>
                 </div>
@@ -19,3 +19,5 @@
         </div>
     {% endfor %}
 </div>
+
+

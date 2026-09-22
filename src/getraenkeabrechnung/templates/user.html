@@ -19,6 +19,13 @@
     hx-indicator=".htmx-indicator"
 ></form>
 
+<div role="alert" class="alert alert-success fixed bottom-4 left-4 z-50" id="success_alert">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>Bestellung wurde angenommen!</span>
+</div>
+
 <div id="drinks-avariable"></div>
 
 <div class="flex justify-center items-center">
@@ -33,9 +40,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 <meta id="name" data-name="{{name}}">
 <script>
+    const alert = document.getElementById("success_alert")
     const name = document.getElementById("name").dataset.name;
     const socket = io({ auth: { name } });
     const toggle = document.getElementById("toggle");
+
+    alert.style.visibility = "hidden"
 
     toggle?.addEventListener("change", (event) => {
         socket.emit("change_restriction", {
@@ -44,10 +54,27 @@
         });
     });
 
+    document.addEventListener('submit', (event) => {
+        const form = event.target.closest('.drink-form');
+        if (!form) return;
+
+        event.preventDefault();
+        socket.emit('buy_drink', {
+            name: form.dataset.name,
+            drink: form.dataset.drink,
+        });
+    });
 
     socket.on("restriction_change", (data) => {
         if (data["restriction"]) { toggle.checked = 1; } 
         else { toggle.checked = 0; }
         document.getElementById("load_data").requestSubmit();
+    });
+
+    socket.on("buy_successful", (data) => {
+        alert.style.visibility= "visible"
+        setTimeout(() => {
+            alert.style.visibility = "hidden"
+        }, 2000)
     });
 </script>

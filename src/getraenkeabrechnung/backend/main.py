@@ -107,5 +107,8 @@ def get_gesamtbetrag(user):
         2
     )
 
+def add_drink(name, price, image, tag):
+    Id = f"{uuid4()}-{_get_sql("SELECT count(*) FROM drinks")[0][0]}"
+
 if __name__ == "__main__":
-    print(get_AdultTag("Jung"))
+    print(add_drink("Wasser mit Bubbel", "0.99", ""))
