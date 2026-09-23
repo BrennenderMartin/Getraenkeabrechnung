@@ -18,13 +18,13 @@ WARNING: The timestamp in the sql db is off by 2 hours -> entry made at 22:33, s
 TO-DOs:
 - Change ID types DONE
 - UnreCOGNISED token bei softdrink FIXED
-- Im family screen zeigen, welche fam ausgewählt ist (war gerade kurz verwirrt)
-- "TestToggle" für Adult tag, später hinter PW verstecken
-- Wie viel Geld gezahlt wurde
-- Backend: Gesamtpreise returnen, 
-- Familie ausgewählt lassen
-- css
+- Im family screen zeigen, welche fam ausgewählt ist (war gerade kurz verwirrt) DONE
+- "TestToggle" für Adult tag, später hinter PW verstecken SEMI_DONE
+- Wie viel Geld gezahlt wurde DONE
+- Backend: Gesamtpreise returnen, DONE
+- Familie ausgewählt lassen DONE
+- css DONE
 - Admin page, um account zu erstellen und toggles zu verstecken, Preise verändern
 - accounts pw schützen lassen
-- Getränk hinzufügen bei Admin
+- Getränk hinzufügen bei Admin MAN KANN GETRÄNKE UND USER HINZUFÜGEN
 - service mehrere Tage laufen lassen, sql backup alle paar stunden machen

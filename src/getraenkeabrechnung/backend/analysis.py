@@ -4,14 +4,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from src.getraenkeabrechnung.backend.main import (
     _exec_sql,
-    _get_sql
+    _get_sql,
+    _get_list_from_sql
 )
 
-df = pd.DataFrame(
-    _get_sql(
-        """
-SELECT 
-    DrinkName, 
+def command_for_user(user):
+    return f"""
+SELECT  
+    DrinkName,
     sum(Price) AS Gesamtpreis
 FROM
     entry AS e, 
@@ -20,32 +20,28 @@ FROM
 WHERE 
     e.UserID = u.UserID AND
     e.DrinkID = d.DrinkID AND
-    UserName = "Jung"
+    UserName = '{user}'
 GROUP BY DrinkName
 ORDER BY Gesamtpreis DESC
 ;
-        """
-    ),
-    columns=["Drink", "Count"]
-)
+"""
 
-print(df)
+def df_for_user(user):
+    command = command_for_user(user)
+    return pd.DataFrame(
+        _get_sql(command),
+        columns=["Drink", "Count"],
+        index=_get_list_from_sql(_get_sql(command))
+    )
 
-df.plot(kind="pie", use_index="Drink", y="Count")
+users = _get_list_from_sql(_get_sql("SELECT UserName FROM user"))
+
+for i, user in enumerate(users):
+    df = df_for_user(user)
+    print(df.loc[:, "Count"])
+    plt.subplot(1, 2, i + 1)
+    plt.pie(x=df.loc[:, "Count"], labels=df.loc[:, "Drink"])
+    plt.title(f"Ausgaben für Nutzer {user}")
+
 
 plt.show()
-
-"""
-SELECT 
-    DrinkName, 
-    count(DrinkName)
-FROM
-    entry AS e, 
-    user AS u, 
-    drinks AS d
-WHERE 
-    e.UserID = u.UserID AND
-    e.DrinkID = d.DrinkID 
-GROUP BY DrinkName
-;
-"""

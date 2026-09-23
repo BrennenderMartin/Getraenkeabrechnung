@@ -73,7 +73,7 @@ def change_restriction(data):
 
 @socketio.on("buy_drink")
 def buy_drink(data):
-    print(data)
+    #print(data)
     return_drink(data["name"], data["drink"])
     emit("buy_successful", {"total_price": get_gesamtbetrag(data["name"]), "drink_name": data["drink"]}, to=data["name"])
 
