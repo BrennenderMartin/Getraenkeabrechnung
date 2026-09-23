@@ -1,10 +1,10 @@
 <div class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="{{ url_for("reset_cookie") }}">
+            <a class="btn btn-ghost text-base sm:text-xl" href="{{ url_for("reset_cookie") }}">
                 {{ event_name }} 
                 {% if name %}
-                    <span class="text-gray-500 font-normal ml-1">- {{ name }}</span>
-                    <span id="total_price" class="text-gray-500 font-normal"> ({{ total_price }}€)</span>
+                    <span class="text-gray-500 text-xs sm:text-base font-medium ml-1">- {{ name }}</span>
+                    <span id="total_price" class="text-gray-500 text-xs sm:text-base font-normal"> ({{ total_price }}€)</span>
                 {% endif %}
             </a>
         </div>
