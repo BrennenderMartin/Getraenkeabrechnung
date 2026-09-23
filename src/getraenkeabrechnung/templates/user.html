@@ -8,7 +8,9 @@
     <title>User Page</title>
 </head>
 <body>
-{% include "components/navbar.html" %}
+<div class="sticky top-0 z-50 bg-white shadow-md">
+    {% include "components/navbar.html" %}
+</div>
 
 <form
     id="load_data"
@@ -16,23 +18,22 @@
     hx-get="/drinks/get/{{ name }}"
     hx-target="#drinks-avariable"
     hx-trigger="submit,load,change"
-    hx-indicator=".htmx-indicator"
 ></form>
 
 <div role="alert" class="alert alert-success fixed bottom-4 left-4 z-50" id="success_alert">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
-    <span>Bestellung wurde angenommen!</span>
+    <span id="alert_text">Bestellung wurde angenommen!</span>
 </div>
 
 <div id="drinks-avariable"></div>
 
-<div class="flex justify-center items-center">
-    <span
-            class="htmx-indicator center loading loading-spinner loading-lg mt-16"
-    ></span>
+
+<div id="loading" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <span class="loading loading-spinner loading-lg text-white"></span>
 </div>
+
 
 </body>
 </html>
@@ -41,13 +42,17 @@
 <meta id="name" data-name="{{name}}">
 <script>
     const alert = document.getElementById("success_alert")
+    const loading = document.getElementById("loading")
+    const total_price = document.getElementById("total_price")
     const name = document.getElementById("name").dataset.name;
     const socket = io({ auth: { name } });
     const toggle = document.getElementById("toggle");
 
     alert.style.visibility = "hidden"
+    loading.style.visibility = "hidden"
 
     toggle?.addEventListener("change", (event) => {
+        loading.style.visibility = "visible"
         socket.emit("change_restriction", {
             name,
             checked: event.target.checked
@@ -57,6 +62,7 @@
     document.addEventListener('submit', (event) => {
         const form = event.target.closest('.drink-form');
         if (!form) return;
+        loading.style.visibility = "visible"
 
         event.preventDefault();
         socket.emit('buy_drink', {
@@ -68,11 +74,16 @@
     socket.on("restriction_change", (data) => {
         if (data["restriction"]) { toggle.checked = 1; } 
         else { toggle.checked = 0; }
+        loading.style.visibility = "hidden"
         document.getElementById("load_data").requestSubmit();
     });
 
     socket.on("buy_successful", (data) => {
+        loading.style.visibility = "hidden"
         alert.style.visibility= "visible"
+
+        total_price.innerHTML = `(${data["total_price"]}€)`
+        document.getElementById("alert_text").innerHTML = `Bestellung '${data["drink_name"]}' wurde angenommen! (${data["total_price"]}€)`
         setTimeout(() => {
             alert.style.visibility = "hidden"
         }, 2000)

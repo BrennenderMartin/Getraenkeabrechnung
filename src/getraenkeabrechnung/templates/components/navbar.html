@@ -1,16 +1,17 @@
 <div class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" href="/">
+            <a class="btn btn-ghost text-xl" href="{{ url_for("reset_cookie") }}">
                 {{ event_name }} 
                 {% if name %}
                     <span class="text-gray-500 font-normal ml-1">- {{ name }}</span>
+                    <span id="total_price" class="text-gray-500 font-normal"> ({{ total_price }}€)</span>
                 {% endif %}
             </a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
-            <a>Alkoholische Getränke: </a>
             {% if name %}
+                <a>Alkoholische Getränke: </a>
                 <input 
                     id="toggle" 
                     type="checkbox" 

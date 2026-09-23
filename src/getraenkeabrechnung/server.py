@@ -5,6 +5,7 @@ from flask import (
     jsonify,
     redirect,
     url_for,
+    make_response
 )
 from json import dumps
 from flask_socketio import SocketIO, join_room, emit 
@@ -16,7 +17,8 @@ from getraenkeabrechnung.backend.main import (
     return_drink,
     get_price_for_drink,
     get_AdultTag,
-    set_AdultTag
+    set_AdultTag,
+    get_gesamtbetrag
 )
 
 app = Flask(__name__)
@@ -26,6 +28,8 @@ EVENT_NAME: str = "Info Linden"
 
 @app.route("/", methods=["GET"])
 def main():
+    if (username := request.cookies.get("user")): return redirect(url_for("get_user_page", name=username))
+    
     return render_template(
         "index.html",
         families=get_families(),
@@ -34,9 +38,17 @@ def main():
         event_name = EVENT_NAME
     )
 
+@app.route("/reset_cookie")
+def reset_cookie():
+    response = make_response(redirect(url_for("main")))
+    response.delete_cookie("user")
+    return response
+
 @app.route("/user/<name>", methods=["GET"])
 def get_user_page(name):
-    return render_template("user.html", name=name, restriction=get_AdultTag(name), event_name=EVENT_NAME)
+    resp = make_response(render_template("user.html", name=name, restriction=get_AdultTag(name), event_name=EVENT_NAME, total_price=get_gesamtbetrag(name)))
+    resp.set_cookie("user", name)
+    return resp
 
 @app.route("/drinks/get/<name>", methods=["GET"])
 def drinks(name):
@@ -63,7 +75,7 @@ def change_restriction(data):
 def buy_drink(data):
     print(data)
     return_drink(data["name"], data["drink"])
-    emit("buy_successful", {}, to=data["name"])
+    emit("buy_successful", {"total_price": get_gesamtbetrag(data["name"]), "drink_name": data["drink"]}, to=data["name"])
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=8000, debug=True)
