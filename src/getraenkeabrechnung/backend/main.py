@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import math
 from uuid import uuid4
 
 path = "./src/getraenkeabrechnung/backend/"
@@ -115,4 +116,4 @@ def add_user(name: str, adults: int, children: int, adulttag: bool, image: str =
     return _exec_sql(f"INSERT INTO user VALUES ('{Id}', '{name}', '{adults}', '{children}', '{image}', {adulttag})", "user")
 
 if __name__ == "__main__":
-    print()
+    print(get_gesamtbetrag("Jung"))

@@ -28,3 +28,4 @@ TO-DOs:
 - accounts pw schützen lassen
 - Getränk hinzufügen bei Admin MAN KANN GETRÄNKE UND USER HINZUFÜGEN
 - service mehrere Tage laufen lassen, sql backup alle paar stunden machen
+- Format front end, so it shows the price with two digits for cents, cause it doesnt do it rn for values like 10.50€ (will show 10.5€)

@@ -146,3 +146,26 @@ WHERE
 GROUP BY DrinkName
 ORDER BY Gesamtpreis DESC
 ;
+
+
+
+
+SELECT 
+    UserName,
+    DrinkName, 
+    count(DrinkName) AS Anzahl,
+    Price,
+    sum(Price) AS Gesamtpreis
+FROM
+    entry AS e, 
+    user AS u, 
+    drinks AS d
+WHERE 
+    e.UserID = u.UserID AND
+    e.DrinkID = d.DrinkID AND
+    UserName = "Jung"
+GROUP BY DrinkName
+ORDER BY Gesamtpreis DESC
+;
+
+INSERT INTO drinks VALUES ("04f81709-05b5-451f-a0c3-3eadee302243-9", "Shots", 3.49, "shots.jpg", True);

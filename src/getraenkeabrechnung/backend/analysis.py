@@ -3,9 +3,9 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 from src.getraenkeabrechnung.backend.main import (
-    _exec_sql,
     _get_sql,
-    _get_list_from_sql
+    _get_list_from_sql,
+    get_gesamtbetrag
 )
 
 def command_for_user(user):
@@ -36,12 +36,12 @@ def df_for_user(user):
 
 users = _get_list_from_sql(_get_sql("SELECT UserName FROM user"))
 
-for i, user in enumerate(users):
+for i, user in enumerate(users[:2]):
     df = df_for_user(user)
     print(df.loc[:, "Count"])
     plt.subplot(1, 2, i + 1)
     plt.pie(x=df.loc[:, "Count"], labels=df.loc[:, "Drink"])
-    plt.title(f"Ausgaben für Nutzer {user}")
+    plt.title(f"Ausgaben für Nutzer {user} ({get_gesamtbetrag(user)})")
 
 
 plt.show()
