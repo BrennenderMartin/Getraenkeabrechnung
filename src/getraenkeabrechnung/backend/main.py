@@ -39,10 +39,10 @@ def _get_sql(command: str, params: tuple = ()) -> list:
 
     return output
 
-def _get_list_from_sql(output):
+def _get_list_from_sql(output, index = 0):
     retList = []
     for item in output:
-        retList.append(item[0])
+        retList.append(item[index])
     return retList
 
 def _save_sql(filename, sqldata):
@@ -103,15 +103,29 @@ def set_AdultTag(user):
 def get_gesamtbetrag(user):
     ges = _get_sql(f"SELECT sum(d.Price) AS Gesamtbetrag FROM entry AS e, user AS u, drinks AS d WHERE e.UserID = u.UserID AND e.DrinkID = d.DrinkID AND u.UserName = '{user}';")[0][0]
     if ges is not None:
-        return round(ges, 2)
+        if len(str(new_ges := round(ges, 2)).split(".")[1]) == 2:
+            return new_ges
+        else:
+            return(f"{new_ges}0")
     else:
         return 0
 
-def add_drink(name: str, price: int, image: str, adulttag: bool):
+def add_drink(
+        name: str, 
+        price: int, 
+        image: str, 
+        adulttag: bool
+    ):
     Id = f"{uuid4()}-{_get_sql("SELECT count(*) FROM drinks")[0][0] + 1}"
     return _exec_sql(f"INSERT INTO drinks VALUES ('{Id}', '{name}', '{price}', '{image}', {adulttag})", "drinks")
 
-def add_user(name: str, adults: int, children: int, adulttag: bool, image: str = None):
+def add_user(
+        name: str, 
+        adults: int, 
+        children: int, 
+        adulttag: bool, 
+        image: str = None
+    ):
     Id = f"{uuid4()}-{100 - _get_sql("SELECT count(*) FROM user")[0][0]}"
     return _exec_sql(f"INSERT INTO user VALUES ('{Id}', '{name}', '{adults}', '{children}', '{image}', {adulttag})", "user")
 
