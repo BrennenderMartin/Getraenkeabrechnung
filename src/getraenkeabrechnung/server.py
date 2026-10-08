@@ -44,6 +44,10 @@ def reset_cookie():
     response.delete_cookie("user")
     return response
 
+@app.route("/settings/<name>")
+def settings(name):
+    return render_template("settings.html", name=name)
+
 @app.route("/user/<name>", methods=["GET"])
 def get_user_page(name):
     resp = make_response(render_template("user.html", name=name, restriction=get_AdultTag(name), event_name=EVENT_NAME, total_price=get_gesamtbetrag(name)))

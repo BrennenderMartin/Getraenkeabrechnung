@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-200 shadow-sm">
         <div class="flex-1">
             <a class="btn btn-ghost text-base sm:text-xl" href="{{ url_for("reset_cookie") }}">
                 {{ event_name }} 
@@ -11,13 +11,7 @@
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
             {% if name %}
-                <input 
-                    id="toggle" 
-                    type="checkbox" 
-                    name="restriction" 
-                    {% if restriction %}checked="checked"{% endif %} 
-                    class="toggle" 
-                />
+                <a class="btn" href="{{ url_for("settings", name=name) }}">Einstellungen</a>
             {% endif %}
             </ul>
         </div>

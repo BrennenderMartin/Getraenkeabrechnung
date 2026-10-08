@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/static/css/output.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
-    <title>User Page</title>
+    <title>Getränkeauswahl-{{ name }}</title>
 </head>
 <body>
 <div class="sticky top-0 z-50 bg-white shadow-md">
@@ -47,18 +47,10 @@
     const total_price = document.getElementById("total_price")
     const name = document.getElementById("name").dataset.name;
     const socket = io({ auth: { name } });
-    const toggle = document.getElementById("toggle");
 
     alert.style.visibility = "hidden"
     loading.style.visibility = "hidden"
 
-    toggle?.addEventListener("change", (event) => {
-        loading.style.visibility = "visible"
-        socket.emit("change_restriction", {
-            name,
-            checked: event.target.checked
-        });
-    });
 
     document.addEventListener('submit', (event) => {
         const form = event.target.closest('.drink-form');
@@ -73,10 +65,9 @@
     });
 
     socket.on("restriction_change", (data) => {
-        if (data["restriction"]) { toggle.checked = 1; } 
-        else { toggle.checked = 0; }
-        loading.style.visibility = "hidden"
+        loading.style.visibility = "visible"
         document.getElementById("load_data").requestSubmit();
+        loading.style.visibility = "hidden"
     });
 
     socket.on("buy_successful", (data) => {

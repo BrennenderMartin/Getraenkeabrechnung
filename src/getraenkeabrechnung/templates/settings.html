@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/output.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <title>Einstellungen-{{ name }}</title>
+</head>
+<body>
+    <div class="p-4 bg-base-200 w-full sticky top-0 shadow-md">
+        <a class="text-xl text-heading font-bold" href="{{ url_for("get_user_page", name=name) }}">Einstellungen <span class="text-sm text-gray-500 ml-1">- {{ name }}</span></a>
+    </div>
+
+    <div class=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center p-8">
+        <div class="card w-fit bg-base-300 card-xs shadow-sm p-4">
+            <div class="card-body">
+                <h2 class="card-title font-bold text-lg">Alterssperre</h2>
+                <p class="text-gray-400 text-sm font-medium">Diese Sperre zeigt alkoholhaltige Getränke in der Auswahl nicht mehr an</p>
+                <div class="justify-end card-actions">
+                    <span class="bg-base-300">Aus</span>
+                    <input 
+                        id="toggle" 
+                        type="checkbox" 
+                        name="restriction" 
+                        {% if restriction %}checked="checked"{% endif %} 
+                        class="toggle" 
+                    />
+                    <span class="bg-base-300">An</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card w-fit bg-base-100 card-xs shadow-sm p-4">
+            <div class="card-body">
+                <h2 class="card-title font-bold text-lg">Xsmall Card</h2>
+                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                <div class="justify-end card-actions">
+                    <button class="btn btn-primary">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<meta id="name" data-name="{{name}}">
+<script>
+    const name = document.getElementById("name").dataset.name;
+    const socket = io({ auth: { name } });
+    const toggle = document.getElementById("toggle");
+
+    toggle?.addEventListener("change", (event) => {
+        socket.emit("change_restriction", {
+            name,
+            checked: event.target.checked
+        });
+    });
+
+    socket.on("restriction_change", (data) => {
+        if (data["restriction"]) { toggle.checked = 1; } 
+        else { toggle.checked = 0; }
+    });
+
+</script>
