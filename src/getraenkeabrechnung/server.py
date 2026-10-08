@@ -46,7 +46,7 @@ def reset_cookie():
 
 @app.route("/settings/<name>")
 def settings(name):
-    return render_template("settings.html", name=name)
+    return render_template("settings.html", name=name, restriction=not get_AdultTag(name))
 
 @app.route("/user/<name>", methods=["GET"])
 def get_user_page(name):
@@ -73,7 +73,7 @@ def connect(auth=None):
 @socketio.on("change_restriction")
 def change_restriction(data):
     set_AdultTag(data["name"])
-    emit("restriction_change", {"name": data["name"], "restriction": get_AdultTag(data["name"])}, to=data["name"])
+    emit("restriction_change", {"name": data["name"], "restriction": not get_AdultTag(data["name"])}, to=data["name"])
 
 @socketio.on("buy_drink")
 def buy_drink(data):
