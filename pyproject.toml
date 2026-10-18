@@ -27,7 +27,10 @@ dev-dependencies = []
 [tool.rye.scripts]
 server = "python -m src.getraenkeabrechnung.server"
 backend = "python -m src.getraenkeabrechnung.backend.main"
+
 anal-pie = "python -m src.getraenkeabrechnung.backend.analysis.pie"
+anal-times = "python -m src.getraenkeabrechnung.backend.analysis.times"
+
 css-watch = "tailwindcss-extra -i src/getraenkeabrechnung/static/css/input.css -o src/getraenkeabrechnung/static/css/output.css --watch"
 css-build = "tailwindcss-extra -i src/getraenkeabrechnung/static/css/input.css -o src/getraenkeabrechnung/static/css/output.css"
 

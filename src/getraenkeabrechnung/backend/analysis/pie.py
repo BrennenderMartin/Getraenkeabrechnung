@@ -22,12 +22,12 @@ class Piechart:
         self.a_users = _get_sql("SELECT COUNT(*) FROM user")[0][0]
         self.rows = 2
         self.columns = 1
-        if self.a_users % self.rows == 0:
+        if (self.a_users + len(self.filters)) % self.rows == 0:
             self.columns = int(self.a_users / self.rows)
         else:
-            self.columns = self.a_users
+            self.columns = int((self.a_users + len(self.filters) + 1) / self.rows)
 
-    def command_for_user(self, user):
+    def _command_for_user(self, user):
         return f"""
         SELECT  
             DrinkName,    
@@ -46,7 +46,7 @@ class Piechart:
         ;
         """
 
-    def command_with_filters(self, filters):
+    def _command_with_filters(self, filters):
         return f"""
         SELECT  
             {filters}Name,
@@ -65,46 +65,12 @@ class Piechart:
         """
 
     def create_pie_plot(self):
-        self.create_plot_filters()
-        self.create_plot_user(len(self.filters))
+        self.create_pie_plot_filters()
+        self.create_pie_plot_user(len(self.filters))
 
-    def create_plot_whole(self, offset, a_plots = None, dif = None):
-        if (dif and a_plots) is None:
-            for i, filteri in enumerate(self.filters):
-                df = _get_sql(self.command_with_filters(filteri))
-                items = _get_list_from_sql(df)
-                prices = _get_list_from_sql(df, 1)
-    
-                labels = [f"{items[i]} ({round(prices[i], 2)} €)" for i in range(len(prices))]
-                print(f"{filteri}: {labels}")
-    
-                plt.subplot(
-                    self.rows + int(len(self.filters) / self.columns), 
-                    self.columns, 
-                    i + offset + 1
-                )
-                plt.pie(x=prices, labels=labels)
-                plt.title(f"{filteri}s ({self.ges} €)")
-        else:
-            df = _get_sql(self.command_with_filters(dif))
-            items = _get_list_from_sql(df)
-            prices = _get_list_from_sql(df, 1)
-
-            labels = [f"{items[i]} ({round(prices[i], 2)} €)" for i in range(len(prices))]
-            print(f"{dif}: {labels}")
-
-            plt.subplot(
-                self.rows + int(len(self.filters) / self.columns), 
-                self.columns, 
-                i + offset + 1
-            )
-            plt.pie(x=prices, labels=labels)
-            plt.title(f"{filteri}s ({self.ges} €)")
-        return dif
-
-    def create_plot_filters(self, offset = 0):
+    def create_pie_plot_filters(self, offset = 0):
         for i, filteri in enumerate(self.filters):
-            df = _get_sql(self.command_with_filters(filteri))
+            df = _get_sql(self._command_with_filters(filteri))
             items = _get_list_from_sql(df)
             amount = _get_list_from_sql(df, 1)
             prices = _get_list_from_sql(df, 2)
@@ -122,9 +88,9 @@ class Piechart:
 
         print()
 
-    def create_plot_user(self, offset = 0):
+    def create_pie_plot_user(self, offset = 0):
         for i, user in enumerate(self.users):
-            df = _get_sql(self.command_for_user(user))
+            df = _get_sql(self._command_for_user(user))
             items = _get_list_from_sql(df)
             amount = _get_list_from_sql(df, 1)
             prices = _get_list_from_sql(df, 2)
@@ -140,6 +106,11 @@ class Piechart:
             )
             plt.pie(x=prices, labels=labels)
             plt.title(f"{user} ({user_ges} €)")
+
+        print()
+
+    def create_bar_plot_user(self, user, drink, offset = 0):
+        
 
         print()
 
